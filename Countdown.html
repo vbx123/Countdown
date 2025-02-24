@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>عد تنازلي احترافي</title>
+    <style>
+        /* التصميم العام */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        .countdown-container {
+            text-align: center;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            width: 90%;
+            max-width: 600px;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #f39c12;
+        }
+
+        .countdown {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .countdown div {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            width: 80px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .countdown div:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .countdown span {
+            display: block;
+            font-size: 2rem;
+            font-weight: bold;
+            color: #f39c12;
+        }
+
+        .countdown p {
+            margin: 0;
+            font-size: 1rem;
+            color: #ddd;
+        }
+
+        /* تأثيرات النص */
+        @keyframes glow {
+            0% { text-shadow: 0 0 5px #f39c12; }
+            50% { text-shadow: 0 0 20px #f39c12; }
+            100% { text-shadow: 0 0 5px #f39c12; }
+        }
+
+        h1 {
+            animation: glow 2s infinite;
+        }
+
+        /* تأثيرات الخلفية */
+        @keyframes moveBackground {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        body {
+            animation: moveBackground 10s infinite alternate;
+            background-size: 200% 200%;
+        }
+
+        /* استعلامات الوسائط للهواتف */
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            .countdown div {
+                width: 60px;
+                padding: 10px;
+            }
+
+            .countdown span {
+                font-size: 1.5rem;
+            }
+
+            .countdown p {
+                font-size: 0.8rem;
+            }
+        }
+
+        @media (max-width: 400px) {
+            h1 {
+                font-size: 1.2rem;
+            }
+
+            .countdown div {
+                width: 50px;
+                padding: 8px;
+            }
+
+            .countdown span {
+                font-size: 1.2rem;
+            }
+
+            .countdown p {
+                font-size: 0.7rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="countdown-container">
+        <h1>بــــاقي علـــي تشـغـيـل التـطبـيـق</h1>
+        <div class="countdown">
+            <div>
+                <span id="days">00</span>
+                <p>أيام</p>
+            </div>
+            <div>
+                <span id="hours">00</span>
+                <p>ساعات</p>
+            </div>
+            <div>
+                <span id="minutes">00</span>
+                <p>دقائق</p>
+            </div>
+            <div>
+                <span id="seconds">00</span>
+                <p>ثواني</p>
+            </div>
+            <div>
+                <span id="milliseconds">000</span>
+                <p>أقل من الثانية</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // تاريخ بداية شهر رمضان 2025 (يمكن تعديله حسب التاريخ الفعلي)
+        const ramadanDate = new Date("2025-03-01T00:00:00");
+
+        function updateCountdown() {
+            const now = new Date();
+            const diff = ramadanDate - now;
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+            const milliseconds = diff % 1000;
+
+            document.getElementById("days").textContent = String(days).padStart(2, '0');
+            document.getElementById("hours").textContent = String(hours).padStart(2, '0');
+            document.getElementById("minutes").textContent = String(minutes).padStart(2, '0');
+            document.getElementById("seconds").textContent = String(seconds).padStart(2, '0');
+            document.getElementById("milliseconds").textContent = String(milliseconds).padStart(3, '0');
+
+            if (diff <= 0) {
+                clearInterval(interval);
+                document.querySelector(".countdown-container").innerHTML = `
+                    <h1 style="font-size: 2rem;">بدأ شهر رمضان الكريم!</h1>
+                `;
+            }
+        }
+
+        const interval = setInterval(updateCountdown, 10);
+    </script>
+</body>
+</html>
